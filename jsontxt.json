@@ -1,0 +1,211 @@
+{
+  "transcript": "shall 3 i; compare thee 3 to a (summer's) day?",
+  "words": [
+    {
+      "alignedWord": "shall",
+      "case": "success",
+      "end": 0.33999999999999997,
+      "endOffset": 5,
+      "phones": [
+        {
+          "duration": 0.11,
+          "phone": "sh_B"
+        },
+        {
+          "duration": 0.09,
+          "phone": "ae_I"
+        },
+        {
+          "duration": 0.09,
+          "phone": "l_E"
+        }
+      ],
+      "start": 0.05,
+      "startOffset": 0,
+      "word": "shall"
+    },
+    {
+      "alignedWord": "<unk>",
+      "case": "success",
+      "end": 0.8500000000000001,
+      "endOffset": 7,
+      "phones": [
+        {
+          "duration": 0.51,
+          "phone": "oov_S"
+        }
+      ],
+      "start": 0.34,
+      "startOffset": 6,
+      "word": "3"
+    },
+    {
+      "alignedWord": "i",
+      "case": "success",
+      "end": 0.9299999999999999,
+      "endOffset": 9,
+      "phones": [
+        {
+          "duration": 0.08,
+          "phone": "ay_S"
+        }
+      ],
+      "start": 0.85,
+      "startOffset": 8,
+      "word": "i"
+    },
+    {
+      "alignedWord": "compare",
+      "case": "success",
+      "end": 1.53,
+      "endOffset": 18,
+      "phones": [
+        {
+          "duration": 0.08,
+          "phone": "k_B"
+        },
+        {
+          "duration": 0.06,
+          "phone": "ah_I"
+        },
+        {
+          "duration": 0.07,
+          "phone": "m_I"
+        },
+        {
+          "duration": 0.07,
+          "phone": "p_I"
+        },
+        {
+          "duration": 0.09,
+          "phone": "eh_I"
+        },
+        {
+          "duration": 0.05,
+          "phone": "r_E"
+        }
+      ],
+      "start": 1.11,
+      "startOffset": 11,
+      "word": "compare"
+    },
+    {
+      "alignedWord": "thee",
+      "case": "success",
+      "end": 1.7,
+      "endOffset": 23,
+      "phones": [
+        {
+          "duration": 0.06,
+          "phone": "dh_B"
+        },
+        {
+          "duration": 0.11,
+          "phone": "iy_E"
+        }
+      ],
+      "start": 1.53,
+      "startOffset": 19,
+      "word": "thee"
+    },
+    {
+      "alignedWord": "<unk>",
+      "case": "success",
+      "end": 1.98,
+      "endOffset": 25,
+      "phones": [
+        {
+          "duration": 0.28,
+          "phone": "oov_S"
+        }
+      ],
+      "start": 1.7,
+      "startOffset": 24,
+      "word": "3"
+    },
+    {
+      "alignedWord": "to",
+      "case": "success",
+      "end": 2.18,
+      "endOffset": 28,
+      "phones": [
+        {
+          "duration": 0.09,
+          "phone": "t_B"
+        },
+        {
+          "duration": 0.11,
+          "phone": "uw_E"
+        }
+      ],
+      "start": 1.98,
+      "startOffset": 26,
+      "word": "to"
+    },
+    {
+      "alignedWord": "a",
+      "case": "success",
+      "end": 2.58,
+      "endOffset": 30,
+      "phones": [
+        {
+          "duration": 0.39,
+          "phone": "ey_S"
+        }
+      ],
+      "start": 2.19,
+      "startOffset": 29,
+      "word": "a"
+    },
+    {
+      "alignedWord": "summer's",
+      "case": "success",
+      "end": 3.34,
+      "endOffset": 40,
+      "phones": [
+        {
+          "duration": 0.11,
+          "phone": "s_B"
+        },
+        {
+          "duration": 0.08,
+          "phone": "ah_I"
+        },
+        {
+          "duration": 0.09,
+          "phone": "m_I"
+        },
+        {
+          "duration": 0.11,
+          "phone": "er_I"
+        },
+        {
+          "duration": 0.15,
+          "phone": "z_E"
+        }
+      ],
+      "start": 2.8,
+      "startOffset": 32,
+      "word": "summer's"
+    },
+    {
+      "alignedWord": "day",
+      "case": "success",
+      "end": 3.7199999999999998,
+      "endOffset": 45,
+      "phones": [
+        {
+          "duration": 0.11,
+          "phone": "d_B"
+        },
+        {
+          "duration": 0.1,
+          "phone": "ey_E"
+        }
+      ],
+      "start": 3.51,
+      "startOffset": 42,
+      "word": "day"
+    }
+  ]
+}
