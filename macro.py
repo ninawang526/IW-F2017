@@ -11,7 +11,6 @@ import macroUtils
 from praatUtils import *
 from clean import cleanData 
 
-SLOPE_CUTOFF = 40
 
 
 # Step 1: read text file
@@ -25,242 +24,145 @@ audio = pydub.AudioSegment.from_mp3("audio.mp3")
 audio.export("./macro_files/audio.wav", format="wav")
 
 
-# Step 3: extract pitch listing
+# Step 3: extract pitch listings -- per sentence
 output = runPraat("pitchlisting.praat")
+lines = output.split("\n")
 
-pitch_listing = []
-for line in output.split("\n"):
+pitch_listings = [[]]
+curr_time = 0
+for i in range(len(lines)):
+	line = lines[i]
 	info = line.split()
-	# if len(info) == 1:
-	# 	entry = [float(info[0])]
+
 	if len(info) == 2:
-		entry = [float(info[0]),float(info[1])]
-		pitch_listing.append(entry)
+		time = float(info[0])
+		val = float(info[1])
 
-
-def slope(p1, p2):
-	(x1, y1) = p1
-	(x2, y2) = p2
-	if (x2-x1) == 0:
-		return None
-	return (y2-y1) / float(x2-x1)
-
-
-# Step 4: calculate H/L peaks
-p1 = (pitch_listing[0][0],pitch_listing[0][1])
-trends = [{"avg": None, "points":[p1]}]
-incr = True
-slopes = []
-
-for i in range(1, len(pitch_listing)):	
-	entry = pitch_listing[i]
-
-	p2 = (entry[0], entry[1])
-	m = slope(p1, p2)
-
-	if m:
-		if (incr and m >= 0) or (not incr and m < 0):
-			trends[-1]["points"].append(p2)
-			slopes.append(m)
-		else:
-			if len(slopes) == 0:
-				trends[-1]["avg"] = None
-			else:
-				avg_slope = np.mean(np.array(slopes))
-				trends[-1]["avg"] = avg_slope
-			
-			slopes = []
-
-			incr = not incr
-			new = {"avg": None, "points":[p2]}
-			trends.append(new)
-
-	# calculate final thingy
-	if i == len(pitch_listing) - 1:
-		if len(slopes) == 0:
-				trends[-1]["avg"] = None
-		else:
-			avg_slope = np.mean(np.array(slopes))
-			trends[-1]["avg"] = avg_slope
-
-	p1 = p2
-
-
-def absorb(all_trends, curr):
-	prev_trend = all_trends[-1]
- 	prev_points = prev_trend["points"]
- 	prev_avg = prev_trend["avg"]
-
- 	curr_points = curr["points"]
- 	curr_avg = curr["avg"]
-
- 	concat = prev_points + curr_points
- 	all_trends[-1]["points"] = concat
-
- 	# recalculate slopes
- 	slopes = []
-	prev = None
-	for point in concat:
-		if prev is not None:
-			m = slope(prev, point)
-			slopes.append(m)
-		prev = point
-
- 	all_trends[-1]["avg"] = np.mean(np.array(slopes))
-
-
-# Step 5: Clean trends
-new_trends = [trends[0]]
-
-i = 1
-while i < len(trends):
- 	trend = trends[i]
- 	points = trend["points"]
- 	avg = trend["avg"]
-
- 	prev_trend = new_trends[-1]
- 	prev_points = prev_trend["points"]
- 	prev_avg = prev_trend["avg"]
-
-	# if avg slope too small, absorb into previous
-	# careful, bc if the jump is significant, you should keep!!
-	# greedy will probably be most accurate anyway
-
-	print avg, points
-
-
-	# if prev too low! absorb him
-	if (prev_points[-1][0] - prev_points[0][0] < .05) or (abs(prev_avg) < SLOPE_CUTOFF):
-		absorb(new_trends, trend)
-		print "absorbed previous"
-
-	elif avg is None: 
-		# decide if absorb into old, or into new
-		curr = points[0][1]
+		entry = [time,val]
+		if time > curr_time + .25 and len(pitch_listings[-1]) > 0:
+			pitch_listings.append([])
+		pitch_listings[-1].append(entry)
 		
-		if i < len(trends)-1:
-			new_trend = trends[i+1]
- 			new_points = new_trend["points"]
+		curr_time = time
+		
 
- 			new = new_points[0][1]
- 			old = prev_points[-1][1]
-
-			dist_to_new = abs(curr-new)
-			dist_to_old = abs(curr-old)
-			
-			#print "comp", dist_to_old, dist_to_new
-
-			if dist_to_new+15 < dist_to_old:
-				new_trends.append(trend)
-				absorb(new_trends, new_trend)
-				print "absorbed new"
-
-				trend = trends[i+1]
-			 	points = trend["points"]
-			 	avg = trend["avg"]
-				print avg, points
-
-				i += 2
-				continue
-
-		absorb(new_trends, trend)
-		print "absorbed old"
+final_trends = []
+final_tones = {}
+contours = []
 
 
-	elif abs(avg) < SLOPE_CUTOFF:
-		absorb(new_trends, trend)
-		print "low slope"
+for pl in pitch_listings:
+	if len(pl) > 0:
+
+		# Step 4: calculate H/L peaks 
+		t = macroUtils.HLPeaks(pl)
+
+		
+		# Step 5: Clean trends
+		s = []
+		for tr in t:
+			if tr["avg"] is not None:
+				s.append(abs(tr["avg"])) 
+
+		avgslope = np.mean(np.array(s))
+		cutoff = (1/6.)*abs(avgslope)
+
+		trends = macroUtils.cleanTrends(t, cutoff)
 
 
-	# if too short duration
-	elif (points[-1][0] - points[0][0]) < .05:
-		absorb(new_trends, trend)
-		print "too short"
+		# Step 6: Generate the dict of tones
+		tones = macroUtils.generateTones(trends)
+
+		final_trends = final_trends + trends
+		final_tones.update(tones)
+
+		contours.append({"trends":trends,"tones":tones})
 
 
-	# if two slopes same, check the jump
-	elif (avg >= 0 and prev_avg >= 0) or (avg < 0 and prev_avg < 0):
-		pitch_jump = abs(prev_points[-1][1] - points[0][1])
-		if pitch_jump < 15:
-			absorb(new_trends, trend)
-			print "low jump"
-		else:
-			new_trends.append(trend)
 
 
-	else:
-		new_trends.append(trend)
+# Step 7: visualize as TextGrid
+#cleaned = cleanData(source_text)
+timestamps = json.loads(utils.gentleAlign("audio.mp3", source_text))
+aligned_words_phones = utils.alignPhones(timestamps)
 
-	i += 1
-
-
-print "\n\n"
-
-def greater(x, y):
-	return x > y
-
-def less(x, y):
-	return x < y
-
-def peak(points, comp):
-	curr = None
- 	for p in points:
- 		if curr is None:
- 			curr = p
- 		elif comp(p[1], curr[1]):
- 			curr = p
- 	return curr
-
-def getPeak(t, points):
-	if t == "max":
-		f = greater 
-		label = "H"
-	else:
-		f = less 
-		label = "L"
-	peakpoint = peak(points, f)
- 	time = peakpoint[0]
- 	return {"label":label,"time":time}
-
-
-tones = []
-for i in range(len(new_trends)):
-	trend = new_trends[i]
- 	points = trend["points"]
- 	avg = trend["avg"]
-
- 	print avg, points
-
- 	# time will be at min/max 	
- 	if i > 0:
- 		prev_avg = new_trends[i-1]["avg"]
- 		if avg >= 0:
- 			if prev_avg >= 0:
- 				tones.append(getPeak("min", points))
- 			tones.append(getPeak("max", points))
- 		else:
- 			if prev_avg < 0:
- 				tones.append(getPeak("max", points))
- 			tones.append(getPeak("min", points))
- 	else:
- 		if avg >= 0:
- 			tones.append(getPeak("max", points))
- 		else:
- 			tones.append(getPeak("min", points))
-
-
-# for t in tones:
-# 	print t
-
-# Step 5: visualize as TextGrid
-# cleaned = cleanData(source_text)
-# timestamps = json.loads(utils.gentleAlign("audio.mp3", cleaned))
-# aligned_words_phones = utils.alignPhones(timestamps)
-
-macroUtils.toTextGrid(new_trends, tones)
+macroUtils.toTextGrid(aligned_words_phones)
+macroUtils.toTonesGrid(final_trends, final_tones)
 
 
 # Step 6: calculate macrorhythmicity
+# 1. a pitch contour with a sequence of level tones is less macro-rhythmic 
+# than a contour with a sequence of rising or falling tones (HHHH < HLHLL)
+#		weigh by time? -- i think this means  ** more **  h/l alternations
+# 		div by time
+def metric1(contour):
+	# number of alternations div by time.
+	tones = contour["tones"]
+	trends = contour["trends"]
+
+	high = (tones[0]["label"] == "H") 
+	alts = 0
+	for i in range(1, len(tones)):
+		if (tones[i]["label"] == "H") != high:
+			alts += 1
+		high = (tones[i]["label"] == "H")
+
+	start = trends[0]["points"][0][0]
+	end = trends[-1]["points"][-1][0]
+
+	return (alts / float(end-start))
+
+	#should be low for monotonic things.
+
+
+# 2. a pitch contour with a sequence of similar sub-tonal units is more macro-rhythmic 
+# than that with less similar ones. (you want your rise-fall hills to be similar to each other)
+
+# 3. a pitch contour with a regular interval of sub-tonal unit is more macro-rhythmic 
+# than that of irregular intervals (regular timing or interval of sub-tonal unit matters) 
+#	i think this means *regularity of* h/l alternations (time)
+
+
+print ("\n\n")
+
+peak = []
+valley = []
+rise = []
+fall = []
+
+for c in contours:
+	tones = c["tones"]
+	trends = c["trends"]
+	
+	for t in sorted(tones.iterkeys()):
+		print tones[t]
+
+	SDp, SDv, SDr, SDf = macroUtils.macVar(c)
+
+	peak.append(SDp)
+	valley.append(SDv)
+	rise.append(SDr)
+	fall.append(SDf)
+
+	# metric 1 - low/high alternation
+
+	# metric 2 - similarity of subtonal units (rise-falls)
+	print "SDrise =", SDr
+	print "SDfall =", SDf
+
+	# metric 3 - regular interval of subtonal units
+	print "SDpeak =", SDp
+	print "SDvalley =", SDv
+
+	print "MacR_Var =", SDp + SDv + SDr + SDf
+	print "\n"
+
+# data = [peak, valley, rise, fall]
+# norms = macroUtils.normalize(data)
+
+# for n in norms:
+# 	print n
+
 
 
 
@@ -269,3 +171,6 @@ macroUtils.toTextGrid(new_trends, tones)
 
 
 	#
+
+
+

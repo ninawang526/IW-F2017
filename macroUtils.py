@@ -1,64 +1,471 @@
 import os
+import numpy as np
+
+SLOPE_CUTOFF = 40
 
 
-# Turn list of words & phones into textgrid
-# def toTextGrid(stressed):
-# 	save_path = "macro_files/"
-# 	complete_name = os.path.join(save_path, "audio.TextGrid")
-# 	f = open(complete_name, "w")
+def slope(p1, p2):
+	(x1, y1) = p1
+	(x2, y2) = p2
+	if (x2-x1) == 0:
+		return None
+	return (y2-y1) / float(x2-x1)
 
-# 	header = "File type = \"ooTextFile\"" + "\n" + "Object class = \"TextGrid\"\n"
-# 	f.write(header)
+def slopeOfList(l):
+	ms = []
 
-# 	start = stressed[0]["phones"][0]["start"]
-# 	i = len(stressed)
-# 	while i >= 0:
-# 		try:
-# 			end = stressed[i]["phones"][-1]["end"]+.2
-# 			break
-# 		except:
-# 			i -= 1
+	if len(l) <= 1:
+		return None
 
-# 	f.write("xmin = " + str(start) + "\n")
-# 	f.write("xmax = " + str(end) + "\n")
-# 	f.write("tiers? <exists>" + "\n")
-# 	f.write("size = 1" + "\n")
-# 	f.write("item []:" + "\n")
+	p1 = (l[0][0],l[0][1])
+
+	for i in range(1,len(l)):
+		entry = l[i]
+		p2 = (entry[0], entry[1])
+		m = slope(p1, p2)
+		ms.append(m)
+
+		p1 = p2
+
+	if len(ms) == 0:
+		return None
+	return np.mean(np.array(ms))
+
+
+# Step 4: calculate H/L peaks -- for one sentence pitch listing
+def HLPeaks(pitch_listing):
+	p1 = (pitch_listing[0][0],pitch_listing[0][1])
+	trends = [{"avg": None, "points":[p1]}]
+	incr = True
+	slopes = []
+
+	for i in range(1, len(pitch_listing)):	
+		entry = pitch_listing[i]
+
+		p2 = (entry[0], entry[1])
+		m = slope(p1, p2)
+
+		if m:
+			if (incr and m >= 0) or (not incr and m < 0):
+				trends[-1]["points"].append(p2)
+				slopes.append(m)
+			else:
+				if len(slopes) == 0:
+					trends[-1]["avg"] = None
+				else:
+					avg_slope = np.mean(np.array(slopes))
+					trends[-1]["avg"] = avg_slope
+
+				incr = not incr
+				new = {"avg": None, "points":[p2]}
+				trends.append(new)
+
+				slopes = []
+
+
+		# calculate final avg slope
+		if i == len(pitch_listing) - 1:
+			if len(slopes) == 0:
+					trends[-1]["avg"] = None
+			else:
+				avg_slope = np.mean(np.array(slopes))
+				trends[-1]["avg"] = avg_slope
+
+		p1 = p2
+
+	return trends
+
+
+def absorb(all_trends, curr):
+	prev_trend = all_trends[-1]
+ 	prev_points = prev_trend["points"]
+ 	prev_avg = prev_trend["avg"]
+
+ 	curr_points = curr["points"]
+ 	curr_avg = curr["avg"]
+
+ 	concat = prev_points + curr_points
+ 	all_trends[-1]["points"] = concat
+
+ 	# recalculate slopes
+ 	slopes = []
+	prev = None
+	for point in concat:
+		if prev is not None:
+			m = slope(prev, point)
+			slopes.append(m)
+		prev = point
+
+ 	all_trends[-1]["avg"] = np.mean(np.array(slopes))
+
+
+# Step 5: Clean trends
+def cleanTrends(trends, cutoff):
+	new_trends = [trends[0]]
+
+	i = 1
+	while i < len(trends):
+	 	trend = trends[i]
+	 	points = trend["points"]
+	 	avg = trend["avg"]
+
+	 	prev_trend = new_trends[-1]
+	 	prev_points = prev_trend["points"]
+	 	prev_avg = prev_trend["avg"]
+
+		# if avg slope too small, absorb into previous
+		# careful, bc if the jump is significant, you should keep!!
+		# greedy will probably be most accurate anyway
+
+		print avg, points
+
+		# if prev too low! absorb him
+		if (prev_points[-1][0] - prev_points[0][0] < .05) or (abs(prev_avg) < cutoff):
+		#if (((prev_points[-1][0] - prev_points[0][0]) * abs(prev_avg)) < (.06*cutoff)):
+			absorb(new_trends, trend)
+			print "absorbed previous"
+
+		elif avg is None: 
+			# decide if absorb into old, or into new
+			curr = points[0][1]
+			
+			if i < len(trends)-1:
+				new_trend = trends[i+1]
+	 			new_points = new_trend["points"]
+
+	 			new = new_points[0][1]
+	 			old = prev_points[-1][1]
+
+				dist_to_new = abs(curr-new)
+				dist_to_old = abs(curr-old)
+
+				newtime = new_points[0][0]
+	 			oldtime = prev_points[-1][0]
+	 			time_diff = newtime - oldtime
+				
+				print "comp", dist_to_old, dist_to_new, time_diff
+
+				if (dist_to_new+10 < dist_to_old) or ((dist_to_new+5 < dist_to_old) and time_diff > .06):
+					new_trends.append(trend)
+					
+
+					# #absorb(new_trends, new_trend)
+					print "left alone"
+
+
+					# # just leave alone?
+
+
+					# trend = trends[i+1]
+				 # 	points = trend["points"]
+				 # 	avg = trend["avg"]
+					# print avg, points
+
+					# i += 2
+					# continue
+					i += 1
+					continue
+
+			absorb(new_trends, trend)
+			print "absorbed old"
+
+
+		elif abs(avg) < cutoff:
+			absorb(new_trends, trend)
+			print "low slope"
+
+
+		# if too short duration
+		# .05 seems magic!
+		elif (points[-1][0] - points[0][0]) < .05:
+			absorb(new_trends, trend)
+			print "too short"
+
+
+		# if two slopes same, check the jump
+		elif (avg >= 0 and prev_avg >= 0) or (avg < 0 and prev_avg < 0):
+			pitch_jump = abs(prev_points[-1][1] - points[0][1])
+			if pitch_jump < 15:
+				absorb(new_trends, trend)
+				print "low jump"
+			else:
+				new_trends.append(trend)
+
+
+		else:
+			new_trends.append(trend)
+
+		i += 1
+
+	return new_trends
+
+
+def peak(points, comp):
+	curr = None
+ 	for p in points:
+ 		if curr is None:
+ 			curr = p
+ 		elif comp(p[1], curr[1]):
+ 			curr = p
+ 	return curr
+
+def getPeak(t, points):
+	if t == "max":
+		f = lambda x, y: x > y
+		label = "H"
+	else:
+		f = lambda x, y: x < y
+		label = "L"
+	peakpoint = peak(points, f)
+ 	time = peakpoint[0]
+ 	return {"label":label, "point":peakpoint}
+
+
+
+
+
+def generateTones(trends):
+	tones = {}
+	for i in range(len(trends)):
+		trend = trends[i]
+	 	points = trend["points"]
+	 	avg = trend["avg"]
+
+	 	#print avg, points
+
+	 	# time will be at min/max 
+	 	minv = getPeak("min", points)
+	 	maxv = getPeak("max", points)
+
+	 	mintime = minv["point"][0]
+	 	maxtime = maxv["point"][0]
+
+	 	# both = (((abs(minv["point"][0] - maxv["point"][0]) > .1 and 
+	 	# 	abs(minv["point"][1] - maxv["point"][1]) > 15)) or 
+			# abs(minv["point"][1] - maxv["point"][1]) > 25)
+		both = ((abs(minv["point"][0] - maxv["point"][0]) > .1 and 
+	 		abs(minv["point"][1] - maxv["point"][1]) > 15))
+
+	 	if i > 0:
+	 		prev_avg = trends[i-1]["avg"]
+	 		if avg >= 0:
+	 			if prev_avg >= 0:
+	 				tones[mintime] = minv
+	 			tones[maxtime] = maxv
+	 		else:
+	 			if prev_avg < 0:
+	 				tones[maxtime] = maxv
+	 			tones[mintime] = minv
+	 	else:
+	 		if avg >= 0:
+	 			if both:
+	 				tones[mintime] = minv
+	 			tones[maxtime] = maxv
+	 		else:
+	 			if both:
+	 				tones[maxtime] = maxv
+	 			tones[mintime] = minv
 	
-# 	f.write("item [1]:" + "\n")
-# 	f.write("class = \"IntervalTier\"" + "\n")
-# 	f.write("name = \"words\"" + "\n")
-# 	f.write("xmin = " + str(start) + "\n")
-# 	f.write("xmax = " + str(end) + "\n")
+	return tones
 
-# 	f.write("intervals: size = " + str(len(stressed)) + "\n")
 
-# 	i = 1
-# 	for wd in stressed:
-# 		try:
-# 			start = wd["phones"][0]["start"]
-# 			end = wd["phones"][-1]["end"]
-# 		except:
-# 			start = 0
-# 			end = 0
+# normalize, out of 100
+def normalize(data):
+	norms = []
+	for metric in data:
 
-# 		f.write("intervals [" + str(i) + "]\n")
-			
-# 		f.write("xmin = " + str(start) + "\n")
-# 		f.write("xmax = " + str(end) + "\n")
-			
-# 		f.write("text = \"" + wd["word"] + "\"\n")
+		min_val = min(metric)
+		max_val = max(metric)
+		range_val = float(max_val - min_val)
 
-# 		i += 1
+		norm = []
+		for value in metric:
+			if range_val != 0:
+				norm.append(((value - min_val)/range_val)*100)
+			else:
+				norm.append(100)
 
-# 	f.close()
+		#print norm
+		norms.append(norm)
+	return norms
 
 
 
-# Turn list of words & phones into textgrid
-def toTextGrid(trends, tones):
+# 1. a pitch contour with a sequence of level tones is less macro-rhythmic 
+# than a contour with a sequence of rising or falling tones (HHHH < HLHLL)
+#		weigh by time? -- i think this means  ** more **  h/l alternations
+# 		div by time
+def metric1(contour):
+	# number of alternations div by time.
+	tones = contour["tones"]
+	trends = contour["trends"]
+
+	high = (tones[0]["label"] == "H") 
+	alts = 0
+	for i in range(1, len(tones)):
+		if (tones[i]["label"] == "H") != high:
+			alts += 1
+		high = (tones[i]["label"] == "H")
+
+	start = trends[0]["points"][0][0]
+	end = trends[-1]["points"][-1][0]
+
+	return (alts / float(end-start))
+
+	#should be low for monotonic things.
+
+
+# 2. a pitch contour with a sequence of similar sub-tonal units is more macro-rhythmic 
+# than that with less similar ones. (you want your rise-fall hills to be similar to each other)
+def metric2(contour):
+	tones = contour["tones"]
+	trends = contour["trends"]
+	
+	tonekeys = sorted(tones.iterkeys())
+
+	rising = []
+	falling = []
+
+	start = tones[tonekeys[0]]["point"][0]
+	for i in range(1,len(tonekeys)):
+		key = tonekeys[i]
+		end = tones[key]["point"][0]
+
+		ps = []
+		for tr in trends:
+			points = tr["points"]
+			for p in points:
+				if (p[0] >= start and p[0] <= end):
+					ps.append(p)
+
+		if tones[key]["label"] == "H":
+			rising.append(ps)
+		else:
+			falling.append(ps)
+		start = end
+
+
+	# sd of rising slope (l->h)
+	ms = []
+	for curve in rising:
+		slope = slopeOfList(curve)
+		if slope is not None:
+			ms.append(slope)
+	SDr = np.std(np.array(ms))
+
+
+	# sd of falling slope
+	ms = []
+	for curve in falling:
+		slope = slopeOfList(curve)
+		if slope is not None:
+			ms.append(slope)
+	SDf = np.std(np.array(ms))
+
+	return (SDr, SDf)
+
+
+	# doesnt take into account ... how many ... 
+	# can't just straight add. -- normalize
+	# i dont think normalizing is good. artificially stretches std
+	# oops i normalized wrong
+	# need to also include freq!!!! bc low std error
+	# dum dum, scale it.
+
+
+# 3. a pitch contour with a regular interval of sub-tonal unit is more macro-rhythmic 
+# than that of irregular intervals (regular timing or interval of sub-tonal unit matters) 
+#	i think this means *regularity of* h/l alternations (time)
+def metric3(contour):
+	tones = contour["tones"]	
+	tonekeys = sorted(tones.iterkeys())
+
+	# sd of peak-to-peak interval
+	times = []
+	for k in tonekeys:
+		t = tones[k]
+		if t["label"] == "H":
+			times.append(t["point"][0])
+	intervals = []
+	for i in range(1,len(times)):
+		intervals.append(times[i]-times[i-1])
+	SDp = np.std(np.array(intervals))
+
+	# sd of valley-to-valley interval 
+	times = []
+	for k in tonekeys:
+		t = tones[k]
+		if t["label"] == "L":
+			times.append(t["point"][0])
+	intervals = []
+	for i in range(1,len(times)):
+		intervals.append(times[i]-times[i-1])
+	SDv = np.std(np.array(times))
+
+	return (SDp, SDv)
+
+
+
+
+
+#Turn list of words into textgrid
+def toTextGrid(stressed):
 	save_path = "macro_files/"
-	complete_name = os.path.join(save_path, "audio.TextGrid")
+	complete_name = os.path.join(save_path, "words.TextGrid")
+	f = open(complete_name, "w")
+
+	header = "File type = \"ooTextFile\"" + "\n" + "Object class = \"TextGrid\"\n"
+	f.write(header)
+
+	start = stressed[0]["phones"][0]["start"]
+	i = len(stressed)
+	while i >= 0:
+		try:
+			end = stressed[i]["phones"][-1]["end"]+.2
+			break
+		except:
+			i -= 1
+
+	f.write("xmin = " + str(start) + "\n")
+	f.write("xmax = " + str(end) + "\n")
+	f.write("tiers? <exists>" + "\n")
+	f.write("size = 1" + "\n")
+	f.write("item []:" + "\n")
+	
+	f.write("item [1]:" + "\n")
+	f.write("class = \"IntervalTier\"" + "\n")
+	f.write("name = \"words\"" + "\n")
+	f.write("xmin = " + str(start) + "\n")
+	f.write("xmax = " + str(end) + "\n")
+
+	f.write("intervals: size = " + str(len(stressed)) + "\n")
+
+	i = 1
+	for wd in stressed:
+		try:
+			start = wd["phones"][0]["start"]
+			end = wd["phones"][-1]["end"]
+		except:
+			start = 0
+			end = 0
+
+		f.write("intervals [" + str(i) + "]\n")
+			
+		f.write("xmin = " + str(start) + "\n")
+		f.write("xmax = " + str(end) + "\n")
+			
+		f.write("text = \"" + wd["word"] + "\"\n")
+
+		i += 1
+
+	f.close()
+
+
+
+# Turn list of tones into textgrid
+def toTonesGrid(trends, tones):
+	save_path = "macro_files/"
+	complete_name = os.path.join(save_path, "tones.TextGrid")
 	f = open(complete_name, "w")
 
 	header = "File type = \"ooTextFile\"" + "\n" + "Object class = \"TextGrid\"\n"
@@ -99,8 +506,12 @@ def toTextGrid(trends, tones):
 		i += 1
 
 
-	start = tones[0]["time"]
-	end = tones[-1]["time"]
+	sortkeys = sorted(tones.iterkeys())
+	first = sortkeys[0]
+	last = sortkeys[-1]
+
+	start = tones[first]["point"][0]
+	end = tones[last]["point"][0]
 
 	f.write("item [2]:" + "\n")
 	f.write("class = \"TextTier\"" + "\n")
@@ -111,8 +522,10 @@ def toTextGrid(trends, tones):
 	f.write("points: size = " + str(len(tones)) + "\n")
 
 	i = 1
-	for tone in tones:
-		time = tone["time"]
+	for key in sortkeys:
+		tone = tones[key]
+
+		time = tone["point"][0]
 		label = tone["label"]
 
 		f.write("points [" + str(i) + "]\n")
