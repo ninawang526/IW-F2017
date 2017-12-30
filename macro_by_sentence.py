@@ -3,6 +3,7 @@ import sys
 import pydub
 import numpy as np
 import math
+import re 
 
 import polly
 import utils
@@ -11,38 +12,47 @@ import macroUtils
 from praatUtils import *
 from clean import cleanData 
 
+import wave
+import contextlib
+
+
 
 def macroBySentence(source, debug=True):
 	# Step 1: read text file
 	source_text = open(source).read()
-
-
-	# Step 2: use Polly to get audio file
-	mp3 = polly.getPollyAudio(source_text, isFile=False)
-	audio = pydub.AudioSegment.from_mp3("audio.mp3")
-	audio.export("./macro_files/audio.wav", format="wav")
-
-
-	# Step 3: extract pitch listings -- per sentence
-	output = runPraat("pitchlisting.praat")
-	lines = output.split("\n")
+	
+	sentences = re.split('\. |\! |\? |\n', source_text)
 
 	pitch_listings = [[]]
-	curr_time = 0
-	for i in range(len(lines)):
-		line = lines[i]
-		info = line.split()
+	for sentence in sentences:
+		# Step 2: use Polly to get audio file
+		mp3 = polly.getPollyAudio(sentence, isFile=False)
+		audio = pydub.AudioSegment.from_mp3("audio.mp3")
+		audio.export("./macro_files/audio.wav", format="wav")
 
-		if len(info) == 2:
-			time = float(info[0])
-			val = float(info[1])
+		# Step 3: extract pitch listings -- per sentence
+		with contextlib.closing(wave.open("./macro_files/audio.wav",'r')) as f:
+		    frames = f.getnframes()
+		    if debug:
+		    	print "FRAMES", frames
+		
+		if frames > 75000:
+			output = runPraat("pitchlisting.praat")
+		else:
+			output = runPraat("pitchlisting2.praat")
+		
+		lines = output.split("\n")
 
-			entry = [time,val]
-			if time > curr_time + .40 and len(pitch_listings[-1]) > 0:
-				pitch_listings.append([])
-			pitch_listings[-1].append(entry)
-			
-			curr_time = time
+		for i in range(len(lines)):
+			line = lines[i]
+			info = line.split()
+
+			if len(info) == 2:
+				time = float(info[0])
+				val = float(info[1])
+				pitch_listings[-1].append([time,val])
+				
+		pitch_listings.append([])
 			
 
 	final_trends = []
@@ -51,7 +61,6 @@ def macroBySentence(source, debug=True):
 
 	for pl in pitch_listings:
 		if len(pl) > 0:
-
 			# Step 4: calculate H/L peaks 
 			t = macroUtils.HLPeaks(pl)
 		
@@ -71,12 +80,7 @@ def macroBySentence(source, debug=True):
 				if (t2-t1) > .021:
 					ts.append((t2-t1))
 			timecutoff = np.mean(np.array(ts)) / 3.
-
-			# cutoff = 37.337654321 
-			# timecutoff = 0.04
 			trends = macroUtils.cleanTrends(t, cutoff, timecutoff)
-
-			print "TC:", cutoff, timecutoff
 
 			# Step 6: Generate the dict of tones
 			tones = macroUtils.generateTones(trends)
@@ -85,12 +89,12 @@ def macroBySentence(source, debug=True):
 			contours.append({"trends":trends,"tones":tones})
 
 
-	# Step 7: visualize as TextGrid
-	if debug:
-		cleaned = cleanData(source_text)
-		timestamps = json.loads(utils.gentleAlign("audio.mp3", cleaned))
-		aligned_words_phones = utils.alignPhones(timestamps)
-		macroUtils.toTonesGrid(aligned_words_phones, final_tones, final_trends)
+		# Step 7: visualize as TextGrid
+		# if debug:
+		# 	cleaned = cleanData(source_text)
+		# 	timestamps = json.loads(utils.gentleAlign("audio.mp3", cleaned))
+		# 	aligned_words_phones = utils.alignPhones(timestamps)
+		# 	macroUtils.toTonesGrid(aligned_words_phones, final_tones, final_trends)
 
 
 	# Step 8: calculate macrorhythmicity
@@ -132,7 +136,7 @@ def macroBySentence(source, debug=True):
 		vs.append(v)
 		pitchranges.append(prange)
 
-		score = std_reg + std_sim + (2/(float(freq))) + SDpt
+		score = std_reg + std_sim + (2/(float(freq))) + (1/float(prange))
 		scores.append(score)
 		
 		if debug:
@@ -150,6 +154,7 @@ def macroBySentence(source, debug=True):
 
 	# MEASUREMENTS :)
 	within_sentence = np.mean(np.array(scores))
+	stdstd = np.std(scores) / np.mean(scores)
 
 	freqval = (np.std(frequency) / np.mean(frequency))
 	rsval = (np.std(rs) / np.mean(rs))
@@ -172,10 +177,11 @@ def macroBySentence(source, debug=True):
 		print "pitchrange:", ptval
 
 		print "within_sentence:", within_sentence
+		print "stdstd:", stdstd
 		print "across_sentence:", across_sentence
 		print "\n"
 
-	return ([within_sentence, across_sentence])
+	return ([within_sentence, stdstd, across_sentence])
 
 
 

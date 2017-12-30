@@ -11,7 +11,7 @@ from utils import *
 from praatUtils import *
 
 
-def macroBySentence(source, debug=False):
+def microBySentence(source, debug=False):
 	# Step 1: read text file
 	source_text = open(source).read()
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
 	folder = os.path.join("texts", "prose")
 	f = os.path.join(folder, "sula.txt")
 
-	data = macroBySentence(f,debug=True)
+	data = microBySentence(f,debug=True)
 	print data
 
 
