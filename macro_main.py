@@ -1,13 +1,23 @@
 import os
+import sys
 import numpy as np 
 import matplotlib.pyplot as plt
 
 from macro_by_sentence import macroBySentence
 from prettytable import PrettyTable
 
+svmfile = None
 
 
-# # find macro
+# svmfile = open("macrosvm", 'w')
+# path = "texts/"
+
+# svmfile = open("macrosvm.t", 'w')
+# path = "classification_texts/"
+
+path = "texts/"
+
+#genres = []
 genres = ["poetry","academic","prose"]
 colors = {"academic":"blue","poetry":"green","prose":"red"}
 x = []
@@ -15,10 +25,10 @@ y = []
 c = []
 labels = []
 
-path = "texts/"
 
-t = PrettyTable(['Name', 'Genre', 'Within', 'Stdstd' ,'Across'])
+t = PrettyTable(['Index','Name', 'Genre', 'Within', 'Across'])
 
+i = 1 
 
 for genre in os.listdir(path):
 	if genre not in genres:
@@ -26,6 +36,7 @@ for genre in os.listdir(path):
 
 	folder = os.path.join(path, genre)
 
+	g = 0
 	for file in os.listdir(folder):
 		if file ==".DS_Store":
 			continue
@@ -39,14 +50,32 @@ for genre in os.listdir(path):
 		 	print filename + " failed."
 		 	continue
 
-		x.append(data[0])
-		y.append(data[1])
+		# within = float(format(data[0], '.4f'))
+		# across = float(format(data[1], '.4f'))
+		frequency, rf, pv, pitchranges = data
+
+		# write svm file
+		if svmfile is not None:
+			svmfile.write("%d 1:%f 2:%f\n" % (genres.index(genre)+1, within, across))
+
+		avgrf = np.mean(rf)
+		stdrf = np.std(rf)/avgrf
+
+		x.append(avgrf)
+		y.append(stdrf)
 		c.append(colors[genre])
-		labels.append(filename)
+		labels.append(str(i))
 
-		row = [filename, genre, float(format(data[0], '.4f')), float(format(data[1], '.4f')), float(format(data[2], '.4f'))]
+		row = [str(i), filename, genre, avgrf, stdrf]
 		t.add_row(row)
+		i += 1
+		g += 1
 
+		if g >= 10:
+			break
+
+if svmfile is not None:
+	svmfile.close()
 
 print t
 plt.scatter(x, y, color=c)

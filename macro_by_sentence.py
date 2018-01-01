@@ -30,7 +30,7 @@ def macroBySentence(source, debug=True):
 		audio = pydub.AudioSegment.from_mp3("audio.mp3")
 		audio.export("./macro_files/audio.wav", format="wav")
 
-		# Step 3: extract pitch listings -- per sentence
+		# Step 3: extract pitch listings -- per **PHRASE** in a sentence
 		with contextlib.closing(wave.open("./macro_files/audio.wav",'r')) as f:
 		    frames = f.getnframes()
 		    if debug:
@@ -42,6 +42,9 @@ def macroBySentence(source, debug=True):
 			output = runPraat("pitchlisting2.praat")
 		
 		lines = output.split("\n")
+		start = float(lines[0].split()[0])
+		end = float(lines[-2].split()[0])
+		#print "duration:", end-start
 
 		for i in range(len(lines)):
 			line = lines[i]
@@ -50,11 +53,31 @@ def macroBySentence(source, debug=True):
 			if len(info) == 2:
 				time = float(info[0])
 				val = float(info[1])
+
+				# if time-start > 4 and end-time > 3 and len(pitch_listings[-1]) > 0:
+				# 	pitch_listings.append([])
+				# 	start = time
 				pitch_listings[-1].append([time,val])
+
+		# curr_time = 0
+		# for i in range(len(lines)):
+		# 	line = lines[i]
+		# 	info = line.split()
+
+		# 	if len(info) == 2:
+		# 		time = float(info[0])
+		# 		val = float(info[1])
+
+		# 		entry = [time,val]
+		# 		if time > curr_time + .30 and len(pitch_listings[-1]) > 0:
+		# 			pitch_listings.append([])
+		# 		pitch_listings[-1].append(entry)
+				
+		# 		curr_time = time
 				
 		pitch_listings.append([])
 			
-
+# count of # below certain threshold?
 	final_trends = []
 	final_tones = {}
 	contours = []
@@ -99,7 +122,7 @@ def macroBySentence(source, debug=True):
 
 	# Step 8: calculate macrorhythmicity
 	frequency = []
-	rs, fs, ps, vs = [], [], [], []
+	rf, pv = [], []
 	pitchranges = []
 	scores = []
 
@@ -113,8 +136,11 @@ def macroBySentence(source, debug=True):
 
 		# metric 1 - low/high alternation
 		freq = macroUtils.metric1(c)
+		freq_score = 1
+		if freq > 0:
+			freq_score = (2/(float(freq)))
 
-		# metric 2 - similarity of subtonal units (rise-falls)
+		# metric 2 - similarity of subtonal units (rise-fallss)
 		r, f, SDr, SDf = macroUtils.metric2(c)
 		std_sim = SDr + SDf
 		if SDr > 0 and SDf > 0:
@@ -127,20 +153,28 @@ def macroBySentence(source, debug=True):
 			std_reg = std_reg / 2.
 		
 		# metric 4
-		prange, SDpt = macroUtils.metric4(c)
+		prange = macroUtils.metric4(c)
+		prange_score = 1
+		if prange > 0:
+			prange_score = (1/float(prange))
 
 		frequency.append(freq)
-		rs.append(r)
-		fs.append(f)
-		ps.append(p)
-		vs.append(v)
 		pitchranges.append(prange)
+		rf.append(std_sim)
+		pv.append(std_reg)
 
-		score = std_reg + std_sim + (2/(float(freq))) + (1/float(prange))
-		scores.append(score)
+		score = std_reg + std_sim + freq_score #+ prange_score
+		
+		# sanity check!
+		if score > 10:
+			print "REALLY HIGH SCORE:", score
+		elif score == 0:
+			print "ZERO SCORE"
+		else:
+			scores.append(score)
 		
 		if debug:
-			print "freq =", freq, (2/(float(freq)))
+			print "freq =", freq, freq_score
 			print "SDrise =", SDr
 			print "SDfall =", SDf
 			print "SDpeak =", SDp
@@ -153,36 +187,38 @@ def macroBySentence(source, debug=True):
 
 
 	# MEASUREMENTS :)
+	minv = min(scores)
 	within_sentence = np.mean(np.array(scores))
-	stdstd = np.std(scores) / np.mean(scores)
+	
+	topscores = scores[:21]
+	stdstd = np.std(topscores) / np.mean(topscores)
 
-	freqval = (np.std(frequency) / np.mean(frequency))
-	rsval = (np.std(rs) / np.mean(rs))
-	fsval = abs(np.std(fs) / np.mean(fs))
-	psval = (np.std(ps) / np.mean(ps))
-	vsval = (np.std(vs) / np.mean(vs))
-	ptval = (np.std(pitchranges)) / np.mean(pitchranges)
+	# freqval = (np.std(frequency) / np.mean(frequency))
+	# rsval = (np.std(rs) / np.mean(rs))
+	# fsval = abs(np.std(fs) / np.mean(fs))
+	# psval = (np.std(ps) / np.mean(ps))
+	# vsval = (np.std(vs) / np.mean(vs))
+	# ptval = (np.std(pitchranges)) / np.mean(pitchranges)
 
-	across_sentence = freqval + (rsval + fsval)/2 + (psval + vsval)/2 + ptval
+	#across_sentence = freqval + (rsval + fsval)/2 + (psval + vsval)/2 + ptval
 
 	
-	if debug:
-		print "\n"
-		print "pitchchanges:", pitchranges
-		print "freq:", freqval
-		print "rise:", rsval
-		print "fall:", fsval
-		print "peak:", psval
-		print "valley:", vsval
-		print "pitchrange:", ptval
+	# if debug:
+	# 	print "\n"
+	# 	print "std frequency:", freqval
+	# 	print "std rises:", rsval
+	# 	print "std falls:", fsval
+	# 	print "std peaks:", psval
+	# 	print "std valleys:", vsval
+	# 	print "std pitch change:", ptval
 
-		print "within_sentence:", within_sentence
-		print "stdstd:", stdstd
-		print "across_sentence:", across_sentence
-		print "\n"
+	# 	print "within_sentence:", within_sentence
+	# 	print "stdstd:", stdstd
+	# 	print "across_sentence:", across_sentence
+	# 	print "\n"
 
-	return ([within_sentence, stdstd, across_sentence])
-
+	#return ([within_sentence, stdstd, across_sentence])
+	return (frequency, rf, pv, pitchranges)
 
 
 

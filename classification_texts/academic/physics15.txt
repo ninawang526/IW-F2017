@@ -1,0 +1,20 @@
+The fluid dynamics of the flow of two in miss able liquids through a porous medium plays a key role in several engineering processes.
+Usually, though the interest is focused on the extraction of one of the liquids, the simultaneous extraction of both liquids is necessary.
+This is the case of oil production and of iron making.
+The water injection method used in oil production consists of injecting water back into the reservoir, usually to increase pressure and thereby stimulate production.
+Normally, just a small percentage of the oil in a reservoir can be extracted, but water injection increases that percentage and maintains the production rate of the reservoir over a longer period of time.
+The water displaces the oil from the reservoir and pushes it towards an oil production well.
+In the steel industry, this multi phase phenomenon occurs inside the blast furnace hearth, in which the porous medium consists of coke particles.
+The slag and pig iron are stratified in the hearth and, periodically, they are drained through a lateral orifice.
+The understanding of this flow is crucial for the proper design and management of the blast furnace hearth.
+In both examples above, when the liquids are drained, a complex flow takes place in which the interface between the liquids moves, tilts and bends.
+Numerical simulation of multiphase flows in porous media is focused mainly in upscaling methods, aimed at solving for large scale features of interest in such a way as to model the effect of the small scale features.
+Other authors use the numerical methods to model the complex multiphase flow that takes place at the pore scale.
+In this work, we numerically study the macro scopic behavior of the interface between two in miss able liquids flowing through a porous medium when they are drained through an opening.
+The effect of gravity on this phenomenon is considered.
+We define four non dimensional parameters that rule the fluid dynamic all problem and, by means of a numerical parametric analysis, an equation to predict the interface tilt in the vicinity of the orifice is developed.
+The equation is verified through several numerical cases where the parameters are varied simultaneously and arbitrarily.
+In addition, the qualitative influence of each non-dimensional parameter on the interface shape is reported.
+A numerical study of the macro scopic interface behavior between two in miss able liquids flowing through a porous medium, when they are drained through an opening, has been reported.
+Four non dimensional parameters that rule the fluid dynamic all problem were identified.
+Thereby, a numerical para metric analysis was developed where the qualitative observation of the resulting interface profiles contributes to the understanding of the effect of each parameter.

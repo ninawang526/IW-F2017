@@ -1,0 +1,20 @@
+Phenotypic conditions in living cells are largely determined by the interplay of a multitude of molecules; in particular, genes and their protein products.
+The coordinated behavior of such a large number of players is often represented by means of a gene regulatory network.
+In a G R N, regulatory processes between genes, transcription factors and other molecular components are represented by nodes and links.
+One common way of inferring this gene regulatory networks is by probable is tic analysis of whole genome gene expression data.
+Specific, context-dependent analysis of regulatory activity of particular cellular phenotypes (say tumor cells) may also be performed with the aid of transcription all interaction networks.
+Commonly, such G R N present a complex topology, often compliant with a scale-free hierarchy nature, in which a relatively small number of key players dominate the function and dynamics of the network.
+Some of these key players in G R N are transcription factors often known as master regulators.
+M R are deemed responsible for the control of the whole regulatory program for cells under the associated phenotype.
+Master regulators may, indeed, act over rather general is tic cellular processes, but also on specific cellular phenotypes.
+For instance, it is known that the m TOR molecule is active in concert ing signals regulating control growth, metabolism, and longevity.
+Malfunction of m TOR complexes has been associated with developmental abnormalities, autoimmune diseases and cancer.
+The main role of m TOR seems to be the regulation of protein synthesis.
+Detailed mechanisms remain unknown, but rib o zone profiling seems to point out to translation all regulation and transcription all activation activity.
+Due to the multiplicity of m TOR signaling interactions, this molecule acts as a master regulator on a variety of phenotypes.
+More specific master regulatory activity may be exemplified by cases such as the one of hASH 1 that has been identified as a master-regulator of endo teal e all cell a pop toe sis; PAX 5 is known to be a master regulator of B-cell development also involved in neo plastic processes in lieu chemo genesis and the yeast protein (that contains a conserved domain present in human JUN proto oncogene) that is triggered by starvation and stress signals and is an M R in the phenotypic response to such stimuli.
+Due to the complex mechanisms behind transcription all regulation in you carry oats, identification of M R is mostly based on the (inferred or empirical) relationships between them and their downstream R N A targets in the G R N.
+In brief, M R are transcription factor genes that are located upstream in the genome ic regulation programme, hence they possess a high hierarchy in the G R N.
+They are considered to be important players behind the presence of (some) amplification cascades in transcription all regulatory networks, and it has been hypothesized that they may coordinate the dynamic transcription all response and phenotype (in the case of you carry oats) of the cells.
+As it may be evident, M R may have a big impact on cancer related phenotypes.
+This is so since under genome instability conditions, the uncontrolled synthesis of these molecules may give rise to large amplification of transcription all cascades.

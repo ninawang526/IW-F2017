@@ -1,0 +1,62 @@
+PHYSICS PAPER:
+	by-sentence interval stddev: 		0.192511525915
+	by-sentence interval mean: 			0.277936156455
+	scaled stddev: 						0.692646571681
+
+
+	stddev of means: 	0.0462197661269
+	scaled stddev: 		0.166296341996
+
+
+SONNET 18:
+	final stddev: 0.100494829077
+	final mean: 0.17573685838
+	scaled stddev: 0.571848330533
+
+
+	stddev of means: 0.0395008814859
+	scaled stddev: 0.224772889706
+
+
+SONNET 73:
+	final stddev: 0.0991849063409
+	final mean: 0.16551327046
+	scaled stddev: 0.599256519223
+
+
+	stddev of means: 0.0322816401934
+	scaled stddev: 0.195039588691
+
+
+BELOVED:
+	final stddev: 0.115595754743 
+	final mean: 0.19760787456
+	scaled stddev: 0.584975446956
+
+
+	stddev of means: 0.053127343107
+	scaled stddev: 0.268852358365
+
+	----
+
+	final stddev: 0.126150959023
+	final mean: 0.225450592926
+	scaled stddev: 0.559550353745 -- average within sentence
+
+
+	stddev of means: 0.02908333461
+	scaled stddev: 0.129000923141 -- average across sentences. this is really low.
+
+
+SOUND AND THE FURY:
+	final stddev: 0.161706588624
+	final mean: 0.210522875817
+	scaled stddev: 0.768118846925
+
+
+	stddev of means: 0.0560401014702
+	scaled stddev: 0.266194831572
+
+
+
+	

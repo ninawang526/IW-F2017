@@ -38,12 +38,28 @@ def macroBySentence(source, debug=True):
 			val = float(info[1])
 
 			entry = [time,val]
-			if time > curr_time + .40 and len(pitch_listings[-1]) > 0:
+			if time > curr_time + .30 and len(pitch_listings[-1]) > 0:
 				pitch_listings.append([])
 			pitch_listings[-1].append(entry)
 			
 			curr_time = time
 			
+	# start = float(lines[0].split()[0])
+	# end = float(lines[-2].split()[0])
+	# for i in range(len(lines)):
+	# 	line = lines[i]
+	# 	info = line.split()
+
+	# 	if len(info) == 2:
+	# 		time = float(info[0])
+	# 		val = float(info[1])
+
+	# 		if time-start > 2 and end-time > 2 and len(pitch_listings[-1]) > 0:
+	# 			pitch_listings.append([])
+	# 			start = time
+	# 		pitch_listings[-1].append([time,val])
+		
+
 
 	final_trends = []
 	final_tones = {}
@@ -109,6 +125,9 @@ def macroBySentence(source, debug=True):
 
 		# metric 1 - low/high alternation
 		freq = macroUtils.metric1(c)
+		freq_score = 1
+		if freq > 0:
+			freq_score = (2/(float(freq)))
 
 		# metric 2 - similarity of subtonal units (rise-falls)
 		r, f, SDr, SDf = macroUtils.metric2(c)
@@ -124,6 +143,9 @@ def macroBySentence(source, debug=True):
 		
 		# metric 4
 		prange, SDpt = macroUtils.metric4(c)
+		prange_score = 1
+		if prange > 0:
+			prange_score = (1/float(prange))
 
 		frequency.append(freq)
 		rs.append(r)
@@ -132,8 +154,16 @@ def macroBySentence(source, debug=True):
 		vs.append(v)
 		pitchranges.append(prange)
 
-		score = std_reg + std_sim + (2/(float(freq))) + SDpt
-		scores.append(score)
+		score = std_reg + std_sim + freq_score + prange_score
+		
+		# sanity check!
+		if score > 10:
+			print "REALLY HIGH SCORE:", score
+		elif score == 0:
+			print "ZERO SCORE"
+		else:
+			print "score:", score
+			scores.append(score)
 		
 		if debug:
 			print "freq =", freq, (2/(float(freq)))
@@ -141,7 +171,7 @@ def macroBySentence(source, debug=True):
 			print "SDfall =", SDf
 			print "SDpeak =", SDp
 			print "SDvalley =", SDv
-			print "SDpitch =", SDpt
+			print "SDpitch =", prange_score
 
 			print "MacR_Var =", score
 

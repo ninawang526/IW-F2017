@@ -51,7 +51,7 @@ def microBySentence(source, debug=False):
 
 
 		# Step 6: fix false-positives
-		toTextGrid(stresses)
+		#toTextGrid(stresses)
 		fixByScore(stresses)
 
 

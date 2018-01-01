@@ -1,0 +1,20 @@
+In the study of static packing there exists still a lack of predictive capabilities of the available theories.
+Assemblies of objects that pack (such as grains) can generally sample such packed configurations only by the external excitation of the system.
+These packing can be built by repeating a given packing protocol, e g, homogeneous compression or deposition under an external field against a confining boundary, on an initial random configuration.
+Also, a Mark of ian or non Mark of ian series can be constructed by exciting the system from the previous packing configuration.
+To what extent the series of packing obtained (using either type of protocol) can be modeled without information on the dynamics that drives the system to the packed configuration is still uncertain.
+The main reason for this is that the few statistical approaches that attempt to do this are strongly hinder by the poor current ability to generate such packed structures without using a dynamics to build the packing.
+One might expect that the packing fraction and its fluctuations, among other properties, could be obtained from basic statistics without resource ing to a full molecular dynamic type of simulations (also known as discrete element method, D E M.
+Although these types of simulations are powerful enough to predict the behavior of most systems that pack, it is desirable to find a description that could neglect the detailed dynamics between consecutive packed configurations.
+The use of the tools provided by the ensemble theory of statistical mechanics in problems of granular matter is still limited.
+Although many studies perform statistical analysis of configurations of a granular sample obtained during careful preparations in the laboratory or in molecular dynamic type simulations, very rarely sampling in a particular statistical ensemble is carried out either via an analytic or a computational calculation of a model system.
+This has prevented a direct assessment as to whether ensemble theory is appropriate to describe the behavior of these peculiar systems.
+One pioneering contribution to the topic is the idea that granular systems at mechanical equilibrium could be treated as ensemble members, putting forward the conjecture that the mean values of measurable quantities could be calculated using statistical mechanics for these ensembles.
+In this scheme, each of the thermo dynamic variables finds a counterpart, the volume taking the place of the energy, and the compact if itty that of the temperature, amongst other transformations.
+However beautiful this description may seem, the computational challenges to generate ensemble samples in this context are extraordinary.
+One complication that prevents to a large extent the use of the machinery of statistical mechanics in this case is the fact that configurations, unlike in traditional liquid theories, have to be checked for the constraint of mechanical equilibrium.
+In a previous work, we have made a proposal on how to deal with this, at least in a first approximation, by describing the excitation of static granular systems under gravity in terms of its arches.
+Since arches are sets of grains that stabilize each other, these are the basic units of mechanically stable structures in the packing.
+Any static configuration can be described in terms of the arches formed by its grains, their arch shape, position, orientations, etc.
+We have considered, as an example, a model of a two-dimensional granular system composed of disks where arches are assumed to take a single possible structure and the arch–arch interactions (due to the interlocking of arches) is neglected.
+We calculated the exact entropy of this model (the non interacting rigid arch model) by constructing all possible configurations for moderate system sizes.

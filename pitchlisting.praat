@@ -25,7 +25,7 @@ for filecounter from 1 to end
    To Pitch... 0.01 75 500
 
 	numberOfFrames = Get number of frames
-	print START
+
 	iframe = 1
 	while iframe < numberOfFrames
     	time = Get time from frame: iframe

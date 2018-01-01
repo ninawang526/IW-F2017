@@ -1,0 +1,20 @@
+Consider the task of finding a route in a map.
+You are likely to start searching the initial and final destinations, identifying possible routes between them, and then selecting the one you think is shorter or more appropriate.
+This simple example highlights how almost any task we perform is organized in a sequence of processes involving operations which we identify as atomic, here search, memory and decision-making.
+In contrast with the thorough knowledge of the neurophysiology underlying these atomic operations, neuroscience is only starting to shed light on how they organize into programs.
+Partly due to the difficulty of implementing compound tasks in animal models, sequential decision-making has mostly been addressed by the domains of artificial intelligence, cognitive science and psychology.
+Our goal is to go beyond the available neuro physiological data to show how the brain might sequentialize operations to conform multi-step cognitive programs.
+We suppose the existence of elementary operations akin to all man’s routines, although not limited to the visual domain.
+Of special relevance to our report is the body of work that has grown out of the seminal work of John Anderson.
+Building on the notion of production systems, Anderson and colleagues developed A C T - R as a framework for human cognition.
+It consists of a general mechanism for selecting productions fueled by sensory, motor, goal and memory modules.
+The A C T - R framework emphasizes the chained nature of human cognition: at any moment in the execution of a task, information placed in buffers acts as data for the central production system, which feeds-back to these same modules.
+Despite vast recent progress in our understanding of decision formation in simple perceptual tasks, it remains unresolved how the operations required by cognitive architectures may be implemented at the level of single neurons.
+We address some of the challenges posed by the translation of cognitive architectures to neurons: how neuronal circuits might implement a single operation, how multiple operations are arranged in a sequence, how the output of one operation is made available to the next one.
+Here we presented ideas aimed to bridge the gap between the neuro physiology of simple decisions and the control of sequential operations.
+Our framework proposes a specific set of mechanisms by which multi-step computations can be controlled by neural circuits.
+Action selection is determined by a parallel competition amongst competing neurons which slowly accumulate sensory and mnemonic evidence until a threshold.
+Actions are conceived in a broad sense, as they can result in the activation of motor circuits or other brain circuits not directly involved in a movement of the eyes or the limbs.
+Thresholding the action of the productions results in discrete changes to a meta-stable network.
+These discrete steps clean up the noise and enable a logical flow of the computation.
+Comprehending the electrophysiological mechanisms of seriality is hindered by the intrinsic difficulty of training non-human primates in complex multi-step tasks.

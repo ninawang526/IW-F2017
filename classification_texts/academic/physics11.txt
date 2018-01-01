@@ -1,0 +1,20 @@
+Water is the subject of numerous studies due to its biological significance and its universal presence.
+The thermodynamic behavior of water presents important differences compared with those of the other substances, and many of the characteristics of such behavior are often attributed to the existence of hydrogen bonds between water molecules.
+Scientists have found that the water structure produced by the hydrogen bonds is peculiar as compared to that of other liquids.
+Then, the advances in the knowledge of hydrogen bond behavior are crucial to understanding water properties.
+The method of molecular dynamics allows to analyze the structure and dynamics of water at the microscopic level and hence to complement experimental techniques in which these properties can be interpreted only in a qualitative way (infrared absorption and Roman scattering, depolarized light scattering, neutron scattering, fem to second spectroscopy and other techniques.
+Among the usual methods to study the short range order in M D simulations of water are the calculus of radial distribution functions, hydrogen bond distributions and order parameters.
+The orientational order parameter Q measures the tendency of the system to adopt a tetrahedral configuration considering the water oxygen atom as vertices of a tetrahedron, whereas the translational order parameter tau quantifies the deviation of the pair correlation function from the uniform value of unity seen in an ideal gas.
+The order parameters are used to construct an order map, in which different states of a system are mapped onto a plane tau  to Q.
+The order parameters are, in general, independent, but they are linearly correlated in the region in which the water behaves anomalously.
+The dynamics of water can by characterized by the bond lifetime, tau H B, associated to the process of rupturing and forming of hydrogen bonds between water molecules which occurs at very short time scale.
+tau H B is obtained in M D using the history-dependent bond correlation function, which represents the probability that an hydrogen bond formed at time t equals 0 remained continuously unbroken and breaks at time t.
+Also, the dynamics of water can be studied by analyzing the mean-square displacement time series.
+In addition to the diffusion coefficient calculation at long times in which M of t alpha t, in the supercooled region of temperatures and at intermediate times M of t alpha t alpha.
+This behavior of M of t is associated to the sub diffusive movement of the water molecules, caused by the caging effect in which a water molecule is temporarily trapped by its neighbors and then moves in short bursts due to nearby cooperative motion.
+A time t characterizes this caging effect, see section two for more details.
+In a previous work, we found a q-exponential behavior in P of t, in which q increases with T approximately below 300 K.
+q of T is also correlated with the probability of occurrence of four hydrogen bonds, and the subdiffusive motion of the water molecules.
+The relationship between dynamics and structural properties of water has not been clearly established to date.
+In this paper, I explore whether the effect that temperature has on the water dynamics reflects a more general connection between the structure and the dynamics of this substance.
+The molecular dynamic method allows to study the structure and dynamics of the S P C over E model of water in the range of temperatures from 213 K to 360 K.

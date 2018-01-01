@@ -1,0 +1,20 @@
+A quick and safe evacuation of a building when threats or hazards are present, whether natural or man-made, is of enormous interest in the field of safety design.
+Any improvement in this sense would increase evacuation safety, and a greater number of lives could be better protected when fast and efficient total egress is required.
+Evacuation from real pedestrian facilities can have different degrees of complexity due to the particular layout, functionality, means of escape, occupation and evacuation plans.
+During the last two decades, modeling and simulation of pedestrian movements have developed into a new approach to the study of this kind of system.
+Basic research on evacuation dynamics has started with the simplest problem of evacuation from a room through a single door.
+This building block problem of pedestrian evacuation has extensively been studied in the bibliography, for example, experimetally, or by using the social force model, and cellular automata models, among many others.
+As a next step, we propose investigating the egress from multiple rooms toward a single means of egress, such as a hallway or corridor.
+Examples of this configuration are schools and universities where several classrooms open into a single hallway, cinema complexes, museums, office buildings, and the evacuation of different building floors via the same staircase.
+The key variable in this kind of system is the timing (simultaneity) at which the different occupants of individual rooms go toward the common means of egress.
+Clearly, this means of egress has a certain capacity that can be rapidly exceeded if all rooms are evacuated simultaneously and thus, the total evacuation time can be sub optimal.
+So, it is valid to ask in what order the different rooms should be evacuated.
+The answer to this question is not obvious.
+Depending on the synchronization and order in which the individual rooms are evacuated, the hallway can be saturated in different sectors, which could hinder the exit from some rooms and thus, the corresponding flow rate of people will be limited by the degree of saturation of the hallway.
+This is because density is a limitation for speed.
+The relationship between density and velocity in a crowd is called fundamental diagram of pedestrian traffic.
+Therefore, the performance of the egress from each room will depend on the density of people in the hallway, which is difficult to predict from analytical methods.
+This type of analysis is limited to simple cases such as simultaneous evacuation of all rooms, assuming a maximum degree of saturation on the stairs.
+An example of an analytical resolution for this simple case can be seen in Ref 12, on chapter 3 to 14, where the egress from a multistory building is studied.
+From now on we will analyze a 2 D version of this particular case: an office building with 7 floors being evacuated through the same staircase, which is just an example of the general problem of several rooms evacuating through a common means of egress.
+In this paper, we studied the evacuation of several pedestrian reservoirs, rooms, toward the same means of egress, hallway.

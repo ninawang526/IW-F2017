@@ -27,5 +27,5 @@ def cleanData (f):
 	removelist = "'"
 
 	final_f = re.sub(r'[^\w+'+removelist+']', " ", new_f.replace("’","\'"))
-	
+
 	return final_f

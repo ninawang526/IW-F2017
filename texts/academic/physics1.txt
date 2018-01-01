@@ -1,0 +1,20 @@
+The characterization of pedestrian flow through doors and bottlenecks is a key feature for designing and dimension ing pedestrian facilities. These observables were extensively studied with field observations, experiments and simulations.
+However, a systematic study of the influence of bottleneck length and position is missing.
+Besides, the terms “door” and “bottleneck” are used sometimes as synonym and should be better specified.
+As a starting point, we will define a bottleneck.
+Considering the flow of pedestrians with a preferred direction of motion (for instance, in an open space, a room or a corridor), we will call “bottleneck” to any geometrical reduction that impedes the pedestrians flow and that it is orientated in the perpendicular direction of this flow, as shown in Fig 1.
+The geometry of a simple bottleneck can be characterized by its width and its length.
+From this definition, it is natural to see that a door (or an opening) is a particular case of a bottleneck whose length tends to zero.
+In this paper, we studied the influence of two geometrical factors on the evacuation time: the bottleneck length and the distance of the exit to the lateral wall in a squared room.
+Two pedestrian dynamics models were considered: the social force model with a respect area and the contract isle particle model.
+For evacuation at normal desired velocities, both models agree in that the longer the bottleneck length after the exit, the longer the evacuation time and, in particular, a door (which is a special case of bottleneck of length LB 0 m) is the best option.
+These results also agree with experiments in very similar conditions.
+Furthermore, the convenience of using short bottlenecks seems to be independent of the number of simulated particles.
+Regarding the convenience of moving the exit closer to the lateral wall, the two models used in this work do not agree, and pedestrian experiments are not reported in the literature.
+Furthermore, other models provide contradictory results and thus, the optimal door position is an open question.
+Considering the possibility that placing the door near a side wall could improve the evacuation performance, it would be worth exploring this geometrical modification experimentally in the future.
+It is important to remark that both models used in the present study were validated considering the flow rate and the fundamental diagram in simple geometries.
+The global flow rate values measured in a configuration with a centered door are comparable with experimental ones.
+However, the models respond in different ways under the geometrical change investigated, presenting very different specific flow rate patterns inside the room.
+This can be a warning for the pedestrian dynamics community, and several geometries should be used for validating output flow rates, instead of just using a single door far away from lateral walls.
+This is another reason for expecting new experimental data considering different geometries.

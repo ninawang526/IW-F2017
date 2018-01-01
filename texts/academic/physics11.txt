@@ -1,0 +1,20 @@
+The quantum many body effect in the condensed matter gives rise to many exotic states such as super conductivity, multi polar phases, valence bond state, vector cheer all phase and topological super conductivity.
+These effects are prominent in the one dimensional electronic systems due to the confinement of electrons.
+The confinement of electrons and the competition between the electron electron repulse shun and the kinetic energies of electrons produce many interesting phases like Spin Density Wave, dime er or the bond order wave phase and Charge Density Wave phase in one dimensional systems.
+Although these quantum many body effects in the system are crucial for exotic phases, dealing with these systems is a challenging job because of the large degrees of freedom.
+The degrees of freedom increase as 2 N or 4 N for a spin one half system or a ferm ionic system, respectively.
+In most cases, the exact solutions for these systems with large degrees of freedom are almost impossible to reach.
+Therefore, during the last three decades many numerical techniques have been developed, e g, Quantum Monte Carlo, Density Functional Theory, Re normalization Group and Density Matrix Re normalization Group method.
+The D M R G is a state of the art numerical technique for 1 D systems with Open Boundary Condition.
+However, the numerical effort to maintain the accuracy for P B C systems becomes exponential.
+It is well known that the Periodic Boundary Condition is essential to get rid of the boundary effect of a finite open chain and also to preserve the inversion symmetry in the systems.
+The D M R G technique is based on the systematic truncation of irrelevant degrees of freedom and has been reviewed extensively in Ref 15, 16.
+In a 1 D system with O B C, the number of relevant degrees of freedom is small.
+Let us consider that for a given accuracy of the O B C system, number of eigen vectors of the density matrix is required, then the conventional D M R G for the P B C system requires.
+In the conventional D M R G, computational effort for the O B C systems with sparse matrices goes as, whereas, it goes as for the P B C system.
+The accuracy of energies for the P B C systems calculated from the conventional D M R G decreases significantly, and there is a long bond in the system which connects both ends.
+The accuracy of operators decreases with the number of re normalization, especially the raising creation S and lowering annihilation operator of spin ferm ionic systems.
+The conventional D M R G is solved in a S z basis, therefore the exact S z operator remains diagonal and, multiple times, re normalization deteriorates the accuracy slowly; but S and S are off diagonal in this exact basis and therefore, the multiple time re normalization of these operators decreases the accuracy of the operators.
+A similar type of accuracy problems occurs for multiple time re normalized a plus and a minus in the ferm ionic systems.
+In fact, it has been noted that accuracy of energy of a system with P B C significantly increases if the super block is constructed with very few times re normalized operators.
+To avoid multiple re normalization, new sites are added at both ends of the chain in such a way that only second time re normalized operators are used to construct the super block.

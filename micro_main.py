@@ -17,9 +17,9 @@ labels = []
 
 path = "texts/"
 
-t = PrettyTable(['Name', 'Genre', 'Within', 'Across'])
+t = PrettyTable(['Index','Name', 'Genre', 'Within', 'Across'])
 
-
+i = 0
 for genre in os.listdir(path):
 	if genre not in genres:
 		continue
@@ -33,20 +33,23 @@ for genre in os.listdir(path):
 		filename = file.split(".")[0]
 		print filename
 
-		# try:
-		data = microBySentence(os.path.join(folder, file), debug=False)
-		# except:
-		# 	print filename + " failed."
-		# 	continue
+		try:
+			data = microBySentence(os.path.join(folder, file), debug=False)
+		except:
+			print filename + " failed."
+			continue
 
 		x.append(data[1])
 		y.append(data[2])
 		c.append(colors[genre])
-		labels.append(filename)
+		labels.append(str(i))
 
-		row = [filename, genre, float(format(data[1], '.4f')), float(format(data[2], '.4f'))]
+		row = [str(i), filename, genre, float(format(data[1], '.4f')), float(format(data[2], '.4f'))]
 		t.add_row(row)
-		break
+
+		i += 1
+		
+	print "NEXT"
 
 
 print t

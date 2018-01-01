@@ -186,14 +186,6 @@ def fixByScore(aligned):
 
 		ind += 1
 
-	# for i in range(ind):
-	# 	try:
-	# 		print formatted[i],i
-	# 	except:
-	# 		continue
-
-	# print "\n"
-
 	med_score, std, scores = calculateScores(formatted, ind)
 
 	ind = 0

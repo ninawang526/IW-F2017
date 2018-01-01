@@ -1,0 +1,20 @@
+Microscopy is an example of the ongoing symbiotic relationship between physics and biology: as early microscopes allowed fundamental discoveries like micro organisms or D N A; the need to see smaller, faster and deeper has pushed the development of a plethora of optical concepts and microscopy techniques.
+Today, fluorescence microscopy is an essential tool in biology as it can visualize the spatio temporal dynamics of intra cellular processes.
+However, many important mechanisms, like protein interaction, clustering or conformational changes, occur at length scales smaller than the resolution limit of conventional microscopy and therefore cannot be assessed by standard imaging.
+Unraveling the dynamics of such inter and intra molecular mechanisms that provides function richness to molecules and molecular complexes is essential to understand key biological processes such as cellular signal propagation.
+Sub diff fraction distances have been determined by exploiting quantum and near field properties of the interaction between light and matter in the nano meter scale.
+For example, Fluorescence Forrester Resonance Energy Transfer has proven to be a valuable technique as it provides an optical signal directly related to the proximity of the molecules.
+The desire to extend this technique to other biological systems with different time and length scales has been hindered by the inherent limitations of fluorescent dyes, i e lack of photostability, low brightness and short range of interaction.
+Super resolution techniques such as STEAD or PALM have recently gained momentum to directly observe fluorescent molecules spaced closer than the diffraction limit.
+Although much work has been done to increase the total acquisition time and frame rate, these methods are still limited by the lack of photo stability and the need to image a single resolvable structure per diffraction limited spot at a time.
+In the past, it has been shown that scattering microscopy using metallic nano particles can complement its fluorescence sibling as it uses an everlasting tag with no rate-limited amount of photons.
+Metallic nano particles are stable, bio compatible and easy to synthesize and conjugate to biological targets and thereby ideal as contrast agents.
+A landmark example of the biological application of such techniques was the direct observation of receptors hopping across previously unknown membrane domains.
+This provided valuable insight into the spatial regulation of signaling complexes and closed a 30 year controversy about the diffusion coefficients of membrane proteins.
+While previous experiments using fluorescent tags yielded a diffusion coefficient in biological membranes much slower than the one observed in synthetic membranes, the fast acquisition speed, 40 103 frames per second, enabled by scattering microscopy showed that this is the result of a fast diffusion and a slow hopping rate between domains.
+In addition, the presence of a plasma, i e a collective oscillation of the free electrons within the nano particle, converts metallic nano particles into very effective scatterers when illuminated at their resonance optical frequency.
+The resulting strong electro magnetic enhancement in the vicinity of the particle provides a near field effect that can be used to sense information about their surroundings such as the effective index of refraction or the presence of other scatter er.
+For example, it has been experimentally shown that the shift in the plasma resonance can be used to determine the length of D N A molecules attached to a metallic nano particle.
+Moreover, the coupling between two nano particles in close proximity produces an alteration of the plasmon spectra.
+This alteration has been used as a nanometric ruler to determine the distance between them.
+In a previous work, we theoretically showed that the coupling between two nano particles is highly sensitive to the polarization of the external field.

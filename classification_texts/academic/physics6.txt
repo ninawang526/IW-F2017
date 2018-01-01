@@ -1,0 +1,20 @@
+With the development of more precise and powerful tools, the mathematical modeling of infectious diseases has become a crucial tool for making decisions associated to policies on public health.
+The scenario was completely different at the beginning of the last century, when the first mathematical models started to be formulated.
+The rather myopic comprehension of the epidemiological processes was evidenced during the most dramatic epidemiologic events of the last century, the pandemic nineteen eighteen flu.
+The lack of a mathematical understanding of the evolution of epidemics gave place to an inaccurate analysis of the epidemiological situation and subsequent failed assertion of the success of the immunization strategy.
+During the influenza pandemic of eighteen ninety two, a viral disease, Richard Pfeiffer isolated bacteria from the lungs and sputum of patients.
+He installed, among the medical community, the idea that these bacteria were the cause of influenza.
+At that moment, the bacteria was called Pfeiffer's bacillus or Bacillus influenza, while its present name keeps a reminiscence of Pfeiffer's wrong hypothesis: Hemo philus influenza.
+Though there were some dissenters, the hypothesis of linking influenza with this pathogen was widely accepted from then on.
+Among the supporters of Pfeiffer hypothesis was William Park, at the New York City Health Department, who in view of the fast progression of the flu in USA, developed a vaccine and antiserum against Hemo philus influenza on October nineteen eighteen.
+Shortly afterwards the Philadelphia municipal laboratory released thousands of doses of the vaccine that was constituted by a mix of killed strep toe coccal, pneumo coccal, and H influenza bacteria.
+Several other attempts to develop similar vaccines followed this initiative.
+However, none of these vaccines prevented viral influenza infection.
+The present consensus is that they were even not protective against the secondary bacterial infections associated to influenza because the vaccine developers at that time could not identify, isolate, and produce all the disease-causing strains of bacteria.
+Nevertheless, a wrong evaluation of the evolution of the disease and a lack of epidemiological knowledge led to the conclusion that the vaccine was effective.
+If we look at Fig 1 corresponding to the weekly influenza death rates in a couple of U S cities taken from Ref 1, we observe a remarkable decay after vaccination, in week 43.
+This decay was inaccurately attributed to the effect of vaccination as it corresponds actually to a normal and expected development of an epidemics without immunization.
+The inaccurate association between H influenzae and influenza persisted until nineteen thirty three, when the viral etiology of the flu was established.
+But Pfeiffer's influenza bacillus, finally named Hemo philus influenza, accounts in its denomination for this persistent mistake.
+The formulation of mathematical models in epidemiology has a tradition of more than one century.
+One of the first successful examples of the mathematical explanation of epidemiological situations is associated with the study of Malaria.

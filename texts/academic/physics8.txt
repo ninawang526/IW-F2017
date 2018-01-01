@@ -1,0 +1,20 @@
+When does an obstruction placed near a bottleneck increase the flow rate of discrete objects moving through the bottleneck?
+Answering this question is of great utility on many scales.
+For example, the safe evacuation of pedestrians moving through confined environments (train stations, stadiums, concert halls, etc) in emergency situations can be of vital importance.
+And grain falling through a silo, where efficient flow is necessary for production and clogging is undesirable, is another example. 
+Granular materials are ubiquitous either in nature or in industrial processes and so a fundamental understanding of their motions is of intrinsic interest, both from physics and engineering perspectives.
+The quantitative study of the flow of granular materials has been performed for many decades, yet there is enormous scope for many interesting and creative techniques to be developed: experimental, theoretical and computational.
+Granular flow around an obstruction placed near a bottleneck is of particular interest as it has many potential applications and this has been investigated by many authors.
+Increases in flow rate achieved through placement of an obstruction near a bottleneck have been reported by several investigators.
+Another commonly reported phenomenon is that of clogging, also described as the formation of arches.
+There are also many novel investigations of granular flow.
+For example, Wilson et al consider granular flow of particles that are completely submerged under water and Lumay et al investigate the flow of charged particles that repel each other.
+Clearly, granular flow is a very wide and active area of research.
+Several authors have investigated the use of physics engines used in games, an example of which can be found in the work by Carl varo and Pug alone e.
+In this paper we present a real time, 3 D computer simulation using the fizz X physics engine.
+The model can be used in the study of granular flow as it exhibits continuous flow, intermittent flow, clogging, and has several parameters that an investigator can control as the simulation is occurring.
+The computer model is based on an experiment that uses spheres for the particles and three different obstruction shapes.
+We use experimental data to calibrate and validate our model.
+The model can then be used to determine how the highest flow rates may be achieved both with regard to obstruction position and to find optimal obstruction shapes.
+The paper is organized as follows: we present the model in section 2.
+Then we describe the experiments in two parts.

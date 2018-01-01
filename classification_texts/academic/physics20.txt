@@ -1,0 +1,20 @@
+The performance of an imaging system is determined by the many physical processes involved.
+Imaging is ultimately about transferring information about the object to the detector.
+The information is often carried by photons and charged particles.
+The physical processes involved in photon and particle transport include emission, absorption, scattering, propagation and detection.
+Each process afects the performance of an imaging system in a complicated way, but these efects in combination can be characterized by null functions.
+Null functions represent the intrinsic limitation of a linear imaging system.
+A null function is any non-zero function in the object space that produces no data in the data space.
+In other words, null functions are invisible to an imaging system because, if added to an object, any diference in the collected data is only due to random noise in the imaging system.
+For any linear system, an object can be decomposed into two components, the measurement component and the null component.
+The measurement component of an object provides a perfect fit to the noise-free data.
+The null component of an object, which is also referred to as a null function, makes no contribution to the data and cannot be recovered even from noise-free data.
+Null functions exist in all digital imaging systems, because real-world objects are functions of continuous variables while a digital image consists of an array of pixel values or other forms of histograms.
+The mapping from continuous objects to discrete data, which can be represented by a continuous-to-discrete operator, causes an infinite number of objects to produce exactly the same data.
+Therefore, null functions, which are the diferences of those objects, are inevitable for a C D system.
+Recent work has shown that null functions can be reduced if continuous data are collected instead of discrete data for Single Photon Emission Computed Tom o graph e.
+The continuous data are collected with photon-processing detectors that apply a maximum-likelihood method to estimate the interaction position, deposited energy and other attributes of each photon-interaction event.
+Our previous work extended the concept of photon-processing detectors to particle-processing detectors that detect alpha and beta particles.
+Two main applications of alpha and beta particles are studying the metabolisms of pharmaceutical and targeted radio nuclide therapy for cancer.
+In both applications, the cellular-level distribution of the charged-particle-emitting radio nuclide is valuable information that can be acquired through imaging.
+The conventional imaging technique for charged particles is auto radio graph e, which provides two-dimensional, ex vivo images of thin tissue slices.

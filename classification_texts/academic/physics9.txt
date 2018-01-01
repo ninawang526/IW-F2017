@@ -1,0 +1,20 @@
+Over the last few decades, different computational techniques have emerged in different fields of science, some of them being extensively implemented and used by a great number of scientists around the globe.
+Among others, the Molecular Dynamics simulation is a very popular computational technique, which is widely used to obtain insight with atomic detail of steady and dynamic properties in the fields of biology, physics and chemistry.
+In this regard, a critical aspect that must be identified in all the M D simulations is related to the required equilibration time to achieve a steady state.
+This point is crucial in order to avoid simulation artifacts that could lead to wrong conclusions.
+Currently, with the increment of the computing power accessible to different investigation groups, much longer simulation trajectories are being carried out to obtain reliable information about the systems, with the purpose of approaching the time scale of the experimental phenomena.
+However, even when this fact is objectively desirable without further objections, nowadays, much longer equilibration times are arbitrarily being required by certain reviewers during the revision process.
+From our viewpoint, this should be thoroughly revised due to the following two main reasons: first, because it results in a limiting factor in the use of this technique by other research groups which cannot access to very expensive computing centers, assuming that authors provide enough evidence of the equilibration of the system.
+Second, to avoid wasting expensive computing time in the study of certain properties which do not require such long equilibration times, once the steady state of the system has been properly identified.
+Phospholipid bilayers are of a high biological relevance, due to the fact that they play a crucial role in the control of the diffusion of small molecules, cell recognition, and signal transduction, among others.
+In our case, we have chosen the Phosphate Choline bilayer because it has been very well studied by M D simulations and experimentally as well.
+Furthermore, studies of the effects of different types of electrolytes on a P C bilayer have also been studied, experimentally and by simulation.
+As mentioned above, the Molecular Dynamics simulations have emerged during the last decades as a powerful tool to obtain insight with atomic detail of the structure and dynamics of lipid bilayers.
+Several M D simulations of membranes under the influence of different salt concentrations have been carried out.
+One of the main obstacles related to these studies has been the time scale associated to the binding process of ions to the lipid bilayer.
+Considering the literature, a vast dispersion of equilibration times associated to the binding of ions to the membrane has been reported, where values ranging from 5 to 100 n have been suggested for mono valent and di valent cat ions.
+In this regard, we carried out four independent simulations of a lipid bilayer formed by 288 D P P C in aqueous solutions, for different concentrations of C a C l 2 to provide an overview of their equilibration times.
+Among other properties, the surface area per lipid, the deuterium order parameters, lipid hydration and lipid-calcium coordination were studied. 
+Finally, in order to generalize our results, a bilayer formed by 288 D P P S in its liquid crystalline phase, in presence of C a C l 2 at point 2 5 N, was simulated as well.
+The present work deals with the simulation time required to achieve the steady state for a lipid bilayer system in presence of C a C l 2. 
+In this regard, we studied two different systems: one with D P P C and another one with D P P S bilayer; both systems in presence of C a C l 2, at different level concentration.

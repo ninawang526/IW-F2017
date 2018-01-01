@@ -265,24 +265,24 @@ def generateTones(trends):
 
 
 # normalize, out of 100
-def normalize(data):
-	norms = []
-	for metric in data:
+# def normalize(data):
+# 	norms = []
+# 	for metric in data:
 
-		min_val = min(metric)
-		max_val = max(metric)
-		range_val = float(max_val - min_val)
+# 		min_val = min(metric)
+# 		max_val = max(metric)
+# 		range_val = float(max_val - min_val)
 
-		norm = []
-		for value in metric:
-			if range_val != 0:
-				norm.append(((value - min_val)/range_val)*100)
-			else:
-				norm.append(100)
+# 		norm = []
+# 		for value in metric:
+# 			if range_val != 0:
+# 				norm.append(((value - min_val)/range_val)*100)
+# 			else:
+# 				norm.append(100)
 
-		#print norm
-		norms.append(norm)
-	return norms
+# 		#print norm
+# 		norms.append(norm)
+# 	return norms
 
 
 
@@ -438,21 +438,27 @@ def metric4(contour):
 
 	pitchranges = []
 
-	# pitch differences
+	# abs pitch change from point to point
 	for i in range(1,len(tonekeys)):
 		t1 = tones[tonekeys[i-1]]
 		t2 = tones[tonekeys[i]]
-		pitchranges.append(abs(t2["point"][1]-t1["point"][1]))
+		dt = t2["point"][0]-t1["point"][0]
+		dx = t2["point"][1]-t1["point"][1]
+		# sanity check:
+		if abs(dx/dt) > 350:
+			#print "slope too high:", abs(dx/dt)
+			pass
+		else:
+			pitchranges.append(abs(dx/dt))
 	
 	if len(pitchranges) == 0:
 		p = 0
-		scaled_SDpt = 0
 	else:
 		p = np.mean(np.array(pitchranges))
-		SDpt = np.std(np.array(pitchranges))
-		scaled_SDpt = abs(SDpt / p)
 
-	return (p, scaled_SDpt)
+	# print "avg pitch change", p
+	# print "pitch slopes", pitchranges
+	return p
 
 
 
@@ -514,7 +520,7 @@ def toTextGrid(stressed):
 
 
 # Turn list of tones into textgrid
-def toTonesGrid(stressed, tones):
+def toTonesGrid(stressed, tones, trends):
 	save_path = "macro_files/"
 	complete_name = os.path.join(save_path, "tones.TextGrid")
 	f = open(complete_name, "w")
@@ -522,7 +528,11 @@ def toTonesGrid(stressed, tones):
 	header = "File type = \"ooTextFile\"" + "\n" + "Object class = \"TextGrid\"\n"
 	f.write(header)
 
-	start = stressed[0]["phones"][0]["start"]
+	try:
+		start = stressed[0]["phones"][0]["start"]
+	except:
+		print stressed
+
 	i = len(stressed)
 	while i >= 0:
 		try:
@@ -534,7 +544,7 @@ def toTonesGrid(stressed, tones):
 	f.write("xmin = " + str(start) + "\n")
 	f.write("xmax = " + str(end) + "\n")
 	f.write("tiers? <exists>" + "\n")
-	f.write("size = 2" + "\n")
+	f.write("size = 3" + "\n")
 	f.write("item []:" + "\n")
 	
 	sortkeys = sorted(tones.iterkeys())
@@ -594,36 +604,38 @@ def toTonesGrid(stressed, tones):
 		i += 1
 
 
+	
+
+
+	start = trends[0]["points"][0][0]
+	end = trends[-1]["points"][-1][0]
+
+	f.write("item [3]:" + "\n")
+	f.write("class = \"IntervalTier\"" + "\n")
+	f.write("name = \"slopes\"" + "\n")
+	f.write("xmin = " + str(start) + "\n")
+	f.write("xmax = " + str(end) + "\n")
+
+	f.write("intervals: size = " + str(len(trends)) + "\n")
+
+	i = 1
+	for trend in trends:
+		points = trend["points"]
+		avg = trend["avg"]
+
+		start = points[0][0]
+		end = points[-1][0]
+
+		f.write("intervals [" + str(i) + "]\n")
+			
+		f.write("xmin = " + str(start) + "\n")
+		f.write("xmax = " + str(end) + "\n")
+			
+		f.write("text = \"" + str(avg) + "\"\n")
+
+		i += 1
+
 	f.close()
-
-
-#start = trends[0]["points"][0][0]
-#	end = trends[-1]["points"][-1][0]
-
-#f.write("class = \"IntervalTier\"" + "\n")
-	# f.write("name = \"slopes\"" + "\n")
-	# f.write("xmin = " + str(start) + "\n")
-	# f.write("xmax = " + str(end) + "\n")
-
-	# f.write("intervals: size = " + str(len(trends)) + "\n")
-
-	# i = 1
-	# for trend in trends:
-	# 	points = trend["points"]
-	# 	avg = trend["avg"]
-
-	# 	start = points[0][0]
-	# 	end = points[-1][0]
-
-	# 	f.write("intervals [" + str(i) + "]\n")
-			
-	# 	f.write("xmin = " + str(start) + "\n")
-	# 	f.write("xmax = " + str(end) + "\n")
-			
-	# 	f.write("text = \"" + str(avg) + "\"\n")
-
-	# 	i += 1
-
 
 
 

@@ -1,0 +1,20 @@
+The new ron all dynamics can be represented as a dynamic all system and a population of new ron as a new ron all network.
+The mean electrical field amplitude of a population of new ron has neglected values when they are un coupled or weakly coupled.
+This amplitude is enhanced when the coupling between them is high enough to make them synchronized among themselves.
+At the synchronized state, it is possible to measure the mean electrical activity of a large number of closed new ron using E E G.
+Abnormalities or absence of synchronization have been reported as a consequence of neuro degenerative diseases.
+This dynamic all effect is a consequence of topological changes caused by lesions spreading in the brain.
+However, every disease has its own features and, here, we propose to study the different dynamic all effects caused by different types of lesions.
+Measures of new ron all functional activity using E E G and f M R I have shown spatial temporal patterns formation.
+An explanation for this behavior is the emergence of a critical state in the new ron all dynamics providing conditions for a formation of distinct clusters at the functional level.
+When the new ron all population is considered as a complex network structure with a hierarchical modular architecture, this high heterogeneity is related to a stretching of criticality and consequently increased functionality.
+Recent papers have shown functional differences between healthy and unhealthy patients with different neuro pathologies.
+Schizophrenia, for example, has been related to new ron all decoupling.
+Unfortunately, many papers are constrained to the study of functional connections and the comparison between healthy and unhealthy patients.
+Efforts have been made to explain the dynamic all changes caused by lesions and different models have been proposed to connect what happens in the new ron all level to what happens in the macro scopic level.
+Nevertheless, a complete understanding about the dynamic all effect of lesions in the brain is still missing.
+From the point of view of electrical activity, when the brain needs to execute a specific task there is a group of new ron that synchronize and work together to perform it.
+When a lesion spreads in the brain, depending on its size, it can disrupt important connections and certain tasks cannot be done anymore.
+Based on this hypothesis, we present here a simplified new ron all network model of globally coupled new ron to study the effects of the de synchronization induced by a lesion spreading randomly in the brain.
+We focus on two main cases: one in which the connections among new ron are disrupted and a second one in which the lesion kills the new ron.
+Despite of the simplicity of the model, the observed phase transitions from synchronized to the de synchronized state have shown different properties for these two types of lesions.
